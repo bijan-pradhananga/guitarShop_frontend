@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { checkAuth } from "@/lib/features/user";
 import { addToWishlist } from "@/lib/features/wishlist";
+import { FaHeart } from "react-icons/fa";
 
 
 const AddToWishlistBtn = ({product}) => {
@@ -22,10 +23,9 @@ const AddToWishlistBtn = ({product}) => {
         }
     };
     return (
-        <button onClick={handleAddToWishlist} className="w-full flex justify-center items-center gap-1 bg-blue-500 hover:bg-blue-700 text-white font-semibold md:font-bold py-2 rounded">
-            Add to Wishlist
-        </button>
-
+        <div onClick={handleAddToWishlist} className="flex gap-2 items-center text-md font-light cursor-pointer">
+            <FaHeart className=""/> <p>Add to Wishlist</p> 
+        </div>
     )
 }
 
