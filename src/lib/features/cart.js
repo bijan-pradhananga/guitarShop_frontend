@@ -72,7 +72,6 @@ const cartSlice = createSlice({
             })
             .addCase(removeFromCart.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.items = state.items.filter(item => item.product_id._id !== action.payload.product_id);
             })
             .addCase(removeFromCart.rejected, (state, action) => {
                 state.isLoading = false;
