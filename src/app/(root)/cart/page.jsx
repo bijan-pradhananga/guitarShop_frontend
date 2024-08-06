@@ -9,20 +9,21 @@ import { useEffect } from "react";
 function CartPage() {
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.user.data);
-  const {items,isLoading} = useAppSelector((state) => state.cart);
+  const { items,total, isLoading } = useAppSelector((state) => state.cart);
   useEffect(() => {
     if (user && user._id) {
       dispatch(fetchCartItems(user._id));
     }
   }, [dispatch, user]);
 
-  const handleRemoveFromCart = async (product_id) =>{
+  const handleRemoveFromCart = async (product_id) => {
     const cartData = { product_id, user_id: user._id };
     const result = await dispatch(removeFromCart(cartData));
     if (result.meta.requestStatus === 'fulfilled') {
-        alert('Product removed from cart successfully');
+      dispatch(fetchCartItems(user._id));
+      alert('Product removed from cart successfully');
     } else {
-        alert('Failed to remove product from cart');
+      alert('Failed to remove product from cart');
     }
   }
 
@@ -37,9 +38,9 @@ function CartPage() {
       <div className="md:flex px-5 md:w-3/4 gap-2 md:px-0 md:mx-auto">
         {/* Cart Part  */}
         <div className="w-full flex flex-col gap-3 my-5 md:px-0 ">
-        { items.length > 0  ? (
-            items.map((item,index) => (
-              <CartComponent key={index} item={item} handleRemoveFromCart={handleRemoveFromCart}/>
+          {items.length > 0 ? (
+            items.map((item, index) => (
+              <CartComponent key={index} item={item} handleRemoveFromCart={handleRemoveFromCart} />
             ))
           ) : (
             <div className="h-20 md:h-96">Your cart is empty</div>
@@ -47,9 +48,12 @@ function CartPage() {
         </div>
         {/* Cart Part  */}
         {/* Checkout Part  */}
-        <div className="w-full  my-5 md:my-5  md:w-1/2">
-          <CheckOutComponent />
-        </div>
+        {items.length > 0 && (
+          <div className="w-full my-5 md:my-5 md:w-1/2">
+            <CheckOutComponent total={total}/>
+          </div>
+        )}
+
         {/* Checkout Part  */}
       </div>
     </>
