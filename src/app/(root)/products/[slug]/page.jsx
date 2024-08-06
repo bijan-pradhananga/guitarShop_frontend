@@ -2,8 +2,10 @@
 import ProductNotFound from "@/components/Design/NotFoundComponent/ProductNotFound";
 import AddToCartBtn from "@/components/hero/AddToCartBtn";
 import WishListBtn from "@/components/hero/AddToWishlistBtn";
+import BuyNowBtn from "@/components/hero/BuyNowBtn";
 import OutOfStockComponent from "@/components/hero/OutOfStockComponent";
 import RatingStars from "@/components/hero/RatingStars";
+import ProductPageLoader from "@/components/Loader/PageLoader.jsx/ProductPageLoader";
 import { fetchSingleProduct } from "@/lib/features/product";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { capitalizeFirstLetter } from "@/utils/utils";
@@ -32,13 +34,14 @@ const ProductDetails = ({ params }) => {
     };
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <ProductPageLoader/>;
     }
 
     return (
         <>
+
             {data && data.category_id ? (
-                <div className="w-full mt-4 px-5 lg:flex lg:gap-6 md:mb-10 md:px-0 md:w-3/5 lg:w-3/4 md:mx-auto ">
+                <div className="w-full mt-4 px-5 lg:flex lg:gap-6 md:mb-10 md:px-0 md:w-3/5 lg:w-3/4 md:mx-auto">
                     <div className="w-full lg:w-2/4 mb-4 ">
                         <img src={`http://localhost:3001/products/${data.product_image}`}
                             className="w-full p-2 aspect-square object-cover shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]" />
@@ -48,7 +51,7 @@ const ProductDetails = ({ params }) => {
                         <p className="mb-2 dark:text-gray-400">
                             {data.description}
                         </p>
-                        <ProductRating product={data} />
+                        {/* <ProductRating product={data} /> */}
                         <h2 className="font-semibold text-lg mb-1">Price: Rs.{data.price}</h2>
                         <h2 className="font-semibold text-lg mb-1">Quantity: {data.quantity}</h2>
                         <h2 className="dark:text-gray-400 font-semibold text-lg mb-1">
@@ -74,19 +77,24 @@ const ProductDetails = ({ params }) => {
                                 +
                             </button>
                         </div>
-                        <div className="flex flex-col gap-3 md:flex-row lg:mt-2 md:w-3/4 lg:w-2/4">
+                        <div className="flex flex-col gap-2 mt-2 md:flex-row lg:mt-2 md:w-3/4 lg:w-2/4">
                             {data.quantity === 0 ? (
                                 <OutOfStockComponent />
                             ) : (
-                                <AddToCartBtn product={data} quantity={quantity}/>
+                                <>
+                                    <AddToCartBtn product={data} quantity={quantity}/>
+                                    <BuyNowBtn/>
+                                </>  
                             )}
+                            {/* <WishListBtn product={data} /> */}
+                        </div>
+                        <div className="mt-4">
                             <WishListBtn product={data} />
                         </div>
                     </div>
                 </div>
             ) : (
                 <ProductNotFound/>
-               
             )}
         </>
     );
