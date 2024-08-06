@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // Define initial state
 const initialState = {
     items: [],
+    total: 0,
     isLoading: true,
     error: null,
 };
@@ -83,7 +84,8 @@ const cartSlice = createSlice({
             })
             .addCase(fetchCartItems.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.items = action.payload;
+                state.items = action.payload.cartItems;
+                state.total = action.payload.total;
             })
             .addCase(fetchCartItems.rejected, (state, action) => {
                 state.isLoading = false;
