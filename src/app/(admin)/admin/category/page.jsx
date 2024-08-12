@@ -6,7 +6,7 @@ import { addCategory, deleteCategory, fetchCategory, fetchSingleCategory } from 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { useEffect, useState } from "react"
 
-const page = () => {
+const Page = () => {
     const dispatch = useAppDispatch()
     const { searchData, searchLoading, searchError } = useAppSelector((state) => state.product);
     const categories = useAppSelector((state) => state.category)
@@ -46,7 +46,7 @@ const page = () => {
 
     useEffect(() => {
         dispatch(fetchCategory());
-    }, [])
+    }, [dispatch])
     return (
         <>
             <CategoryHeader setAddPopup={setAddPopup}/>
@@ -135,4 +135,4 @@ const CategoryTable = ({ categories, handleDelete, handleEdit, searchLoading }) 
     );
 }
 
-export default page
+export default Page

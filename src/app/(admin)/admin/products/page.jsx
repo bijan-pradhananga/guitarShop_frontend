@@ -10,7 +10,7 @@ import { addProduct, deleteProduct, fetchProducts, fetchSingleProduct } from "@/
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { useEffect, useState } from "react"
 
-const page = ({ searchParams }) => {
+const Page = ({ searchParams }) => {
 
     const dispatch = useAppDispatch()
     const products = useAppSelector((state) => state.product)
@@ -70,7 +70,7 @@ const page = ({ searchParams }) => {
         dispatch(fetchProducts({ url: `product?limit=8&page=${currPage}` }));
         dispatch(fetchCategory());
         dispatch(fetchBrands());
-    }, [currPage])
+    }, [currPage,dispatch])
     return (
         <>
             <ProductHeader />
@@ -235,4 +235,4 @@ const ProductsTable = ({ products, handleDelete, handleEdit, searchData, searchL
     );
 }
 
-export default page
+export default Page
