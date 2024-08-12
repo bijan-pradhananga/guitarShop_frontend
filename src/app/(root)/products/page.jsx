@@ -11,7 +11,7 @@ import ProductCardLoader from '@/components/Loader/ProductCardLoader/ProductCard
 import ProductNotFound from '@/components/Design/NotFoundComponent/ProductNotFound';
 import PageNumber from '@/components/hero/PageNumber';
 
-const page = ({ searchParams }) => {
+const Page = ({ searchParams }) => {
     const [sortOrder, setSortOrder] = useState({ term: 'def', sort: 'Default' })
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
@@ -122,4 +122,4 @@ const DropDown = ({ sortProduct }) => {
     )
 }
 
-export default page
+export default Page

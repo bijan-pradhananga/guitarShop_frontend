@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import ProductCardLoader from '@/components/Loader/ProductCardLoader/ProductCardLoader';
 
 
-const page = () => {
+const Page = () => {
   const dispatch = useAppDispatch()
   const products = useAppSelector((state) => state.product)
   useEffect(() => {
@@ -49,4 +49,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

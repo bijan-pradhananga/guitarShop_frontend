@@ -4,7 +4,7 @@ import { useAppDispatch } from '@/lib/hooks';
 import Link from 'next/link'
 import { useState } from 'react';
 
-const page = () => {
+const Page = () => {
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     first_name: '',
@@ -210,4 +210,4 @@ const RegisterForm = ({formData,handleChange,handleSubmit}) => {
 
 }
 
-export default page
+export default Page
