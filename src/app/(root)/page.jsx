@@ -15,7 +15,7 @@ const page = () => {
     dispatch(fetchProducts({ url: `product` }))
     dispatch(fetchTopRatedProduct())
 
-  }, [])
+  }, [dispatch])
 
   return (
     <>
