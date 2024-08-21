@@ -6,6 +6,7 @@ import adminReducer from './features/admin'
 import userReducer from './features/user'
 import cartReducer from './features/cart'
 import wishlistReducer from './features/wishlist'
+import orderReducer from './features/order'
 
 export const makeStore = () => {
   return configureStore({
@@ -16,7 +17,8 @@ export const makeStore = () => {
         brand:brandReducer,
         user: userReducer,
         cart: cartReducer,
-        wishlist: wishlistReducer
+        wishlist: wishlistReducer,
+        order:orderReducer
     }
   })
 }
