@@ -1,3 +1,4 @@
+import API from "@/config/config";
 import { capitalizeFirstLetter } from "@/utils/utils"
 
 const CartComponent = ({item,handleRemoveFromCart}) => {
@@ -15,7 +16,7 @@ const CartComponent = ({item,handleRemoveFromCart}) => {
 const CartImgPart = ({item}) => {
   return (
     <div className="w-1/3 aspect-square p-1 ">
-      <img src={`http://localhost:3001/products/${item.product_id.product_image}`} className="w-full h-full object-cover rounded" />
+      <img src={`${API.defaults.baseURL}/products/${item.product_id.product_image}`} className="w-full h-full object-cover rounded" />
     </div>
   )
 }

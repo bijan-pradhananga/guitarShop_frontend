@@ -1,6 +1,7 @@
 import Link from "next/link";
 import RatingStars from "@/components/hero/RatingStars";
 import { capitalizeFirstLetter } from "@/utils/utils";
+import API from "@/config/config";
 
 const ProductCard = ({ product }) => {
   return (
@@ -17,7 +18,7 @@ const ProductCard = ({ product }) => {
 const ProductCardHeader = ({ product }) => {
   return (
     <div className="w-full aspect-square bg-gray-200 rounded">
-      <img src={`http://localhost:3001/products/${product.product_image}`} className="w-full h-full object-cover rounded" ></img>
+      <img src={`${API.defaults.baseURL}/products/${product.product_image}`} className="w-full h-full object-cover rounded" ></img>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import RatingStars from "@/components/hero/RatingStars";
+import API from "@/config/config";
 import Link from "next/link";
 
 const ProductCard2 = ({ product }) => {
@@ -14,7 +15,7 @@ const ProductCard2 = ({ product }) => {
 const ProductCard2Img = ({ product }) => {
     return (
         <div className='w-full aspect-square p-3 md:p-3 md:w-2/5 lg:p-0'>
-            <img src={`http://localhost:3001/products/${product.product_image}`} className='w-full h-full aspect-square object-cover rounded' />
+            <img src={`${API.defaults.baseURL}/products/${product.product_image}`} className='w-full h-full aspect-square object-cover rounded' />
         </div>
     )
 }

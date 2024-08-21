@@ -4,6 +4,7 @@ import ProductPopup from "@/components/Design/PopupComponent/ProductPopup"
 import SearchProductComponent from "@/components/Design/ProductComponent/SearchProductComponent"
 import PageNumber from "@/components/hero/PageNumber"
 import TableLoader from "@/components/Loader/TableLoader"
+import API from "@/config/config"
 import  { fetchBrands } from "@/lib/features/brand"
 import { fetchCategory } from "@/lib/features/category"
 import { addProduct, deleteProduct, fetchProducts, fetchSingleProduct } from "@/lib/features/product"
@@ -145,7 +146,7 @@ const ProductsTable = ({ products, handleDelete, handleEdit, searchData, searchL
                                         <td className="px-6 py-4">{product.price}</td>
                                         <td className="px-6 py-4">{product.quantity}</td>
                                         <td className="px-6 py-4">
-                                            <img src={`http://localhost:3001/products/${product.product_image}`} className="aspect-square w-10 object-cover rounded" alt="product"></img>
+                                            <img src={`${API.defaults.baseURL}/products/${product.product_image}`} className="aspect-square w-10 object-cover rounded" alt="product"></img>
                                         </td>
                                         <td className="px-6 py-4">
                                             <span
