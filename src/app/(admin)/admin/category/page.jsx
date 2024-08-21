@@ -8,7 +8,6 @@ import { useEffect, useState } from "react"
 
 const Page = () => {
     const dispatch = useAppDispatch()
-    const { searchData, searchLoading, searchError } = useAppSelector((state) => state.product);
     const categories = useAppSelector((state) => state.category)
     const [addPopup, setAddPopup] = useState(false)
     const [editPopup, setEditPopup] = useState(false)
@@ -51,7 +50,7 @@ const Page = () => {
         <>
             <CategoryHeader setAddPopup={setAddPopup}/>
             <div className="relative overflow-x-auto sm:rounded-lg">
-                <CategoryTable categories={categories} handleDelete={handleDelete} handleEdit={handleEdit} searchData={searchData} searchLoading={searchLoading} searchError={searchError}
+                <CategoryTable categories={categories} handleDelete={handleDelete} handleEdit={handleEdit}
                 />
             </div>
             {addPopup && <AddCategoryPopup handleSubmit={handleSubmit} setProductPopup={setAddPopup} />}
@@ -77,10 +76,10 @@ const CategoryHeader = ({setAddPopup}) => {
     )
 }
 
-const CategoryTable = ({ categories, handleDelete, handleEdit, searchLoading }) => {
+const CategoryTable = ({ categories, handleDelete, handleEdit }) => {
     return (
         <>
-            {categories.isLoading || searchLoading ? (
+            {categories.isLoading  ? (
                 // Show loading indicator
                 <TableLoader />
             ) : (
