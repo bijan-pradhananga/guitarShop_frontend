@@ -8,7 +8,7 @@ const WishListCard = ({ product,handleRemoveFromWishlist }) => {
         <WishListCardHeader product={product}/>
         <WishListCardBody product={product} />
       </Link>
-      <WishListCardRating product={product} />
+      {/* <WishListCardRating product={product} /> */}
       <RemoveBtn product={product} handleRemoveFromWishlist={handleRemoveFromWishlist}/>
     </div>
   )
@@ -42,13 +42,13 @@ const WishListCardInfos = ({ product }) => {
 }
 
 
-const WishListCardRating = ({product}) => {
-  return (
-    <div className="flex gap-1 text-lg my-3">
-          <RatingStars product={product}/>
-    </div>
-  )
-}
+// const WishListCardRating = ({product}) => {
+//   return (
+//     <div className="flex gap-1 text-lg my-3">
+//           <RatingStars product={product}/>
+//     </div>
+//   )
+// }
 
 const RemoveBtn = ({product,handleRemoveFromWishlist}) => {
   return (
