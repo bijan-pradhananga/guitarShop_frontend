@@ -83,7 +83,7 @@ const ProductDetails = ({ params }) => {
                             ) : (
                                 <>
                                     <AddToCartBtn product={data} quantity={quantity}/>
-                                    <BuyNowBtn/>
+                                    <BuyNowBtn product={data} quantity={quantity} fetchSingleProduct={fetchSingleProduct} />
                                 </>  
                             )}
                             {/* <WishListBtn product={data} /> */}
