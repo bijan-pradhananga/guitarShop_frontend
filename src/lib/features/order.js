@@ -38,11 +38,11 @@ export const fetchUserOrders = createAsyncThunk('fetchUserOrders', async (id)=>{
     }
 })
 
-export const updateCategory = createAsyncThunk(
-    'updateCategory',
+export const updateOrder = createAsyncThunk(
+    'updateOrder',
     async ({ id, formData }, { rejectWithValue }) => {
         try {
-            const response = await API.put(`/category/${id}`, formData);
+            const response = await API.put(`/order/${id}`, formData);
             return response.data;
         } catch (error) {
             if (error.response && error.response.data) {
@@ -50,11 +50,20 @@ export const updateCategory = createAsyncThunk(
                 return rejectWithValue(error.response.data);
             } else {
                 // Otherwise, return a general error message
-                return rejectWithValue({ message: 'An error occurred while updating the product' });
+                return rejectWithValue({ message: 'An error occurred while updating the order' });
             }
         }
     }
 );
+
+export const cancelOrder = createAsyncThunk('cancelOrder',async (id)=>{
+    try {
+        const response = await API.put(`order/${id}/cancel`)
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 
 export const fetchSingleCategory = createAsyncThunk('fetchSingleCategory',async (id)=>{
@@ -89,13 +98,23 @@ const categorySlice = createSlice({
             state.isLoading= false,
             state.error= true
         });
-        builder.addCase(updateCategory.pending,(state,action)=>{
+        builder.addCase(updateOrder.pending,(state,action)=>{
             state.isLoading= true
         });
-        builder.addCase(updateCategory.fulfilled,(state,action)=>{
+        builder.addCase(updateOrder.fulfilled,(state,action)=>{
             state.isLoading= false
         });
-        builder.addCase(updateCategory.rejected,(state,action)=>{
+        builder.addCase(updateOrder.rejected,(state,action)=>{
+            state.isLoading= false,
+            state.error= action.payload.message
+        });
+        builder.addCase(cancelOrder.pending,(state,action)=>{
+            state.isLoading= true
+        });
+        builder.addCase(cancelOrder.fulfilled,(state,action)=>{
+            state.isLoading= false
+        });
+        builder.addCase(cancelOrder.rejected,(state,action)=>{
             state.isLoading= false,
             state.error= action.payload.message
         });
