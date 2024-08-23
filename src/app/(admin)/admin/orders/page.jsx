@@ -1,7 +1,7 @@
 'use client'
 import PageNumber from "@/components/hero/PageNumber"
 import TableLoader from "@/components/Loader/TableLoader"
-import { fetchOrders } from "@/lib/features/order"
+import { cancelOrder, fetchOrders, updateOrder } from "@/lib/features/order"
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { useEffect } from "react"
 
@@ -13,7 +13,7 @@ const Page = ({ searchParams }) => {
     if (searchParams.page > 1) {
         currPage = Number(searchParams.page)
     }
-    
+
 
     let pgNos = []
     for (let index = currPage - 3; index < currPage + 3; index++) {
@@ -21,17 +21,43 @@ const Page = ({ searchParams }) => {
         if (index > orders.totalPages) break;
         pgNos.push(index)
     }
-   
-    
+
+    const handleCancelOrder = async (id) => {
+        let confirm = window.confirm("Are you sure you want to cancel this ordder?");
+        if (confirm) {
+            const result = await dispatch(cancelOrder(id));
+            if (cancelOrder.fulfilled.match(result)) {
+                dispatch(fetchOrders(currPage))
+                alert('Order Updated Successfully');
+            } else {
+                alert('Unexpected Error Occured');
+            }
+        }
+    }
+
+    const handleUpdateOrder = async (id,formData) => {
+        let confirm = window.confirm("Are you sure you want to confirm this ordder?");
+        if (confirm) {
+            const result = await dispatch(updateOrder({id,formData}));
+            if (updateOrder.fulfilled.match(result)) {
+                dispatch(fetchOrders(currPage))
+                alert('Order Updated Successfully');
+            } else {
+                alert('Unexpected Error Occured');
+            }
+        }
+    }
+
+
     useEffect(() => {
         dispatch(fetchOrders(currPage));
-    }, [dispatch,currPage])
+    }, [dispatch, currPage])
 
 
     return (
         <>
             <OrderHeader />
-            <OrderTable orders={orders} pgNos={pgNos} searchParams={searchParams} />
+            <OrderTable orders={orders} pgNos={pgNos} searchParams={searchParams} handleCancelOrder={handleCancelOrder} handleUpdateOrder={handleUpdateOrder}/>
         </>
     )
 }
@@ -48,7 +74,7 @@ const OrderHeader = () => {
     )
 }
 
-const OrderTable = ({ orders,pgNos, searchParams }) => {
+const OrderTable = ({ orders, pgNos, searchParams,handleCancelOrder,handleUpdateOrder }) => {
     return (
         <>
             {orders.isLoading ? (
@@ -97,18 +123,24 @@ const OrderTable = ({ orders,pgNos, searchParams }) => {
                                         <td className="px-6 py-4">${order.total.toFixed(2)}</td>
                                         <td className="px-6 py-4">{order.status}</td>
                                         <td className="px-6 py-4">
-                                            <span
-                                                className="font-medium text-green-500 dark:text-green-500 hover:underline cursor-pointer mr-2"
-                                            // onClick={() => { handleEdit(category._id) }}
-                                            >
-                                                Confirm
-                                            </span>
-                                            <span
-                                                className="font-medium text-red-500 hover:underline cursor-pointer "
-                                            // onClick={() => { handleDelete(category._id) }}
-                                            >
-                                                Cancel
-                                            </span>
+                                            {order.status == "Pending"?(
+                                            <>
+                                                <span
+                                                    className="font-medium text-green-500 dark:text-green-500 hover:underline cursor-pointer mr-2"
+                                                onClick={() => { handleUpdateOrder(order._id,{status:"Confirmed"}) }}
+                                                >
+                                                    Confirm
+                                                </span>
+                                                <span
+                                                    className="font-medium text-red-500 hover:underline cursor-pointer "
+                                                onClick={() => { handleCancelOrder(order._id) }}
+                                                >
+                                                    Cancel
+                                                </span>
+                                            </>
+                                            ):(
+                                                <div>No Further Actions Available</div>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
