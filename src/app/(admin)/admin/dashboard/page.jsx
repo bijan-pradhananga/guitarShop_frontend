@@ -1,6 +1,16 @@
-import React from 'react'
+'use client'
+import TableLoader from "@/components/Loader/TableLoader"
+import { fetchOrders } from "@/lib/features/order"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { useEffect } from "react"
 
 const Dashboard = () => {
+    const dispatch = useAppDispatch()
+    const orders = useAppSelector((state) => state.order)
+
+    useEffect(() => {
+        dispatch(fetchOrders(1));
+    }, [dispatch])
     return (
         <>
             <DashboardHeader />
@@ -9,126 +19,7 @@ const Dashboard = () => {
                 <div className='text-2xl font-bold mb-4'>
                     Latest Orders
                 </div>
-                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">
-                                    Product name
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Color
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Category
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Price
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                                <th
-                                    scope="row"
-                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    Apple MacBook Pro 17
-                                </th>
-                                <td className="px-6 py-4">Silver</td>
-                                <td className="px-6 py-4">Laptop</td>
-                                <td className="px-6 py-4">$2999</td>
-                                <td className="px-6 py-4">
-                                    <a
-                                        href="#"
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                    >
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                                <th
-                                    scope="row"
-                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    Microsoft Surface Pro
-                                </th>
-                                <td className="px-6 py-4">White</td>
-                                <td className="px-6 py-4">Laptop PC</td>
-                                <td className="px-6 py-4">$1999</td>
-                                <td className="px-6 py-4">
-                                    <a
-                                        href="#"
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                    >
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                                <th
-                                    scope="row"
-                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    Magic Mouse 2
-                                </th>
-                                <td className="px-6 py-4">Black</td>
-                                <td className="px-6 py-4">Accessories</td>
-                                <td className="px-6 py-4">$99</td>
-                                <td className="px-6 py-4">
-                                    <a
-                                        href="#"
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                    >
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                                <th
-                                    scope="row"
-                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    Google Pixel Phone
-                                </th>
-                                <td className="px-6 py-4">Gray</td>
-                                <td className="px-6 py-4">Phone</td>
-                                <td className="px-6 py-4">$799</td>
-                                <td className="px-6 py-4">
-                                    <a
-                                        href="#"
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                    >
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th
-                                    scope="row"
-                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                    Apple Watch 5
-                                </th>
-                                <td className="px-6 py-4">Red</td>
-                                <td className="px-6 py-4">Wearables</td>
-                                <td className="px-6 py-4">$999</td>
-                                <td className="px-6 py-4">
-                                    <a
-                                        href="#"
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                    >
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <OrderTable orders={orders}/>
             </div>
         </>
     )
@@ -150,6 +41,64 @@ const DashboardStats = () => {
         <div className="flex-1 bg-gray-200 py-16 rounded"></div>
     </div>
     )
+}
+
+const OrderTable = ({ orders}) => {
+    return (
+        <>
+            {orders.isLoading ? (
+                // Show loading indicator
+                <TableLoader />
+            ) : (
+                <>
+                    {orders.data.length === 0 ? (
+                        <div>No Order Found</div>
+                    ) : (
+                        // Render products
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border dark:border-gray-800">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3">Order ID</th>
+                                    <th scope="col" className="px-6 py-3">User ID</th>
+                                    {/* <th scope="col" className="px-6 py-3">User Name</th> */}
+                                    <th scope="col" className="px-6 py-3">Product Details</th>
+                                    <th scope="col" className="px-6 py-3">Total Price</th>
+                                    <th scope="col" className="px-6 py-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.data.map((order) => (
+                                    <tr key={order._id} className="border-b dark:border-gray-700">
+                                        <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{order._id}</td>
+                                        <td className="px-6 py-4">{order.user_id._id}</td>
+                                        {/* <td className="px-6 py-4">{order.user_id.first_name} {order.user_id.last_name}</td> */}
+                                        <td className="px-6 py-4">
+                                            <ul>
+                                                {order.items.map((item) => (
+                                                    <li key={item.product_id._id} className="mb-2">
+                                                        <div className="flex items-center">
+                                                            {/* <img src={item.product_id.product_image} alt={item.product_id.product_name} className="w-10 h-10 mr-2" /> */}
+                                                            <div>
+                                                                <p className="text-gray-900 dark:text-white">{item.product_id.product_name}</p>
+                                                                <p className="text-gray-500 dark:text-gray-400">Quantity: {item.quantity}</p>
+                                                                <p className="text-gray-500 dark:text-gray-400">Price: ${item.price}</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </td>
+                                        <td className="px-6 py-4">${order.total.toFixed(2)}</td>
+                                        <td className="px-6 py-4">{order.status}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </>
+            )}
+        </>
+    );
 }
 
 
