@@ -20,21 +20,21 @@ export const buyNow = createAsyncThunk('buyNow', async (order)=>{
     }
 })
 
-export const checkOut = createAsyncThunk('checkout', async (id)=>{
+export const checkOut = createAsyncThunk('checkout', async (user_id)=>{
     try {
-        const response = await API.post(`order/checkout`,id)
+        const response = await API.post(`order/checkout`,{user_id})
         return response.data;
     } catch (error) {
         console.log(error);
     }
 })
 
-export const fetchUserOrders = createAsyncThunk('fetchUserOrders', async (id)=>{
+export const fetchUserOrders = createAsyncThunk('fetchUserOrders', async (id, { rejectWithValue })=>{
     try {
-        const response = await API.delete(`order/${id}`)
+        const response = await API.get(`order/${id}`)
         return response.data;
     } catch (error) {
-        console.log(error);
+        return rejectWithValue(error.response.data.message);
     }
 })
 
@@ -77,6 +77,7 @@ export const fetchSingleCategory = createAsyncThunk('fetchSingleCategory',async 
 
 const initialState={
     data: [],
+    items:[],
     singleOrderData:{},
     isLoading:true,
     error: null,
@@ -84,9 +85,14 @@ const initialState={
     totalOrders: 0
 }
 
-const categorySlice = createSlice({
-    name:'category',
+const orderSlice = createSlice({
+    name:'order',
     initialState: initialState,
+    reducers: {
+        setItems: (state,action) => {
+            state.items = action.payload;  
+        },
+    },
     extraReducers: (builder)=>{
         builder.addCase(buyNow.pending,(state,action)=>{
             state.isLoading= true
@@ -95,6 +101,16 @@ const categorySlice = createSlice({
             state.isLoading= false
         });
         builder.addCase(buyNow.rejected,(state,action)=>{
+            state.isLoading= false,
+            state.error= true
+        });
+        builder.addCase(checkOut.pending,(state,action)=>{
+            state.isLoading= true
+        });
+        builder.addCase(checkOut.fulfilled,(state,action)=>{
+            state.isLoading= false
+        });
+        builder.addCase(checkOut.rejected,(state,action)=>{
             state.isLoading= false,
             state.error= true
         });
@@ -145,4 +161,6 @@ const categorySlice = createSlice({
     }
 })
 
-export default categorySlice.reducer
+// Export actions and reducer
+export const { setItems } = orderSlice.actions;
+export default orderSlice.reducer
