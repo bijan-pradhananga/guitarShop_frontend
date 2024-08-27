@@ -1,8 +1,37 @@
+'use client'
+import withAuth from "@/app/authProvider";
+import OrderCardComponent2 from "@/components/Design/OrderCardComponent/OrderCardComponent2";
+import { fetchUserOrders } from "@/lib/features/order";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useEffect } from "react";
 
 const order = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
+  const orders = useAppSelector((state) => state.order);
+
+  useEffect(() => {
+    dispatch(fetchUserOrders(user.data._id))
+    // console.log(orders.items);
+    
+  }, [dispatch])
   return (
-    <div>order</div>
+    <>
+      <h1 className='text-xl font-bold md:text-2xl'>My Orders</h1>
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 my-5 md:px-0 ">
+        {orders.data.length === 0 ? (
+          <div>No Orders Found</div>
+        ) : (
+          <>
+            {orders.data.map((order, index) => (
+              <OrderCardComponent2 key={index} order={order} user={user} dispatch={dispatch} />
+            ))}
+          </>
+        )}
+
+      </div>
+    </>
   )
 }
 
-export default order
+export default withAuth(order)
