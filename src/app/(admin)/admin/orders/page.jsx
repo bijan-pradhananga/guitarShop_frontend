@@ -23,7 +23,7 @@ const Page = ({ searchParams }) => {
     }
 
     const handleCancelOrder = async (id) => {
-        let confirm = window.confirm("Are you sure you want to cancel this ordder?");
+        let confirm = window.confirm("Are you sure you want to cancel this order?");
         if (confirm) {
             const result = await dispatch(cancelOrder(id));
             if (cancelOrder.fulfilled.match(result)) {
