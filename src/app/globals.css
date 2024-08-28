@@ -9,3 +9,36 @@
 button{
     cursor: pointer;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Light theme track color */
+    border-radius: 10px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #888; /* Light theme thumb color */
+    border-radius: 10px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Light theme thumb hover color */
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background-color: #2d3748; /* Dark theme track color */
+    }
+  
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #4a5568; /* Dark theme thumb color */
+    }
+  
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background-color: #718096; /* Dark theme thumb hover color */
+    }
+  }
