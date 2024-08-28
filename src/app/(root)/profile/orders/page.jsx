@@ -1,19 +1,23 @@
 'use client'
 import withAuth from "@/app/authProvider";
 import OrderCardComponent2 from "@/components/Design/OrderCardComponent/OrderCardComponent2";
+import OrderItemsPopup from "@/components/Design/PopupComponent/OrderItemsPopup";
 import { fetchUserOrders } from "@/lib/features/order";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const order = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const orders = useAppSelector((state) => state.order);
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+};
 
   useEffect(() => {
     dispatch(fetchUserOrders(user.data._id))
-    // console.log(orders.items);
-    
+
   }, [dispatch])
   return (
     <>
@@ -24,12 +28,12 @@ const order = () => {
         ) : (
           <>
             {orders.data.map((order, index) => (
-              <OrderCardComponent2 key={index} order={order} user={user} dispatch={dispatch} />
+              <OrderCardComponent2 key={index} order={order} user={user} dispatch={dispatch} togglePopup={togglePopup}/>
             ))}
           </>
         )}
-
       </div>
+      {isOpen && <OrderItemsPopup togglePopup={togglePopup} items={orders.items}/>}
     </>
   )
 }
