@@ -1,25 +1,34 @@
 'use client'
 import TableLoader from "@/components/Loader/TableLoader"
+import { fetchCategory } from "@/lib/features/category"
 import { fetchOrders } from "@/lib/features/order"
+import { fetchProducts } from "@/lib/features/product"
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { useEffect } from "react"
+import { FaShoppingBag } from "react-icons/fa"
+import { BiSolidCategory } from "react-icons/bi";
 
 const Dashboard = () => {
     const dispatch = useAppDispatch()
     const orders = useAppSelector((state) => state.order)
+    const { totalProducts } = useAppSelector((state) => state.product)
+    const { totalCategory } = useAppSelector((state) => state.category)
 
     useEffect(() => {
         dispatch(fetchOrders(1));
+        dispatch(fetchCategory());
+        dispatch(fetchProducts({ url: `product?page=${1}}` }))
     }, [dispatch])
+
     return (
         <>
             <DashboardHeader />
-            <DashboardStats/>
+            <DashboardStats orders={orders} totalProducts={totalProducts} totalCategory={totalCategory} />
             <div>
                 <div className='text-2xl font-bold mb-4'>
                     Latest Orders
                 </div>
-                <OrderTable orders={orders}/>
+                <OrderTable orders={orders} />
             </div>
         </>
     )
@@ -33,17 +42,31 @@ const DashboardHeader = () => {
     )
 }
 
-const DashboardStats = () => {
+const DashboardStats = ({ orders, totalProducts, totalCategory }) => {
     return (
         <div className="w-full flex gap-4 mb-5">
-        <div className="flex-1 bg-gray-200 py-16 rounded"></div>
-        <div className="flex-1 bg-gray-200 py-16 rounded"></div>
-        <div className="flex-1 bg-gray-200 py-16 rounded"></div>
-    </div>
+            <div className="flex-1 text-center flex justify-center items-center bg-gray-100 dark:bg-gray-800 py-16 rounded">
+                <FaShoppingBag />
+                <span>
+                    Products: {totalProducts}
+                </span>
+            </div>
+            <div className="flex-1 text-center flex justify-center items-center bg-gray-100 dark:bg-gray-800 py-16 rounded">
+                <BiSolidCategory />
+                <span>
+                    Category: {totalCategory}
+                </span>
+            </div>
+            <div className="flex-1 text-center flex justify-center items-center bg-gray-100 dark:bg-gray-800 py-16 rounded">
+                <span>
+                    Orders: {orders.totalOrders}
+                </span>
+            </div>
+        </div>
     )
 }
 
-const OrderTable = ({ orders}) => {
+const OrderTable = ({ orders }) => {
     return (
         <>
             {orders.isLoading ? (
