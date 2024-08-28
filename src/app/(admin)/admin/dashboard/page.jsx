@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { useEffect } from "react"
 import { FaShoppingBag } from "react-icons/fa"
 import { BiSolidCategory } from "react-icons/bi";
+import { RiBillFill } from "react-icons/ri"
 
 const Dashboard = () => {
     const dispatch = useAppDispatch()
@@ -20,10 +21,28 @@ const Dashboard = () => {
         dispatch(fetchProducts({ url: `product?page=${1}}` }))
     }, [dispatch])
 
+    // Creating the stats object to pass to DashboardStats
+    const stats = {
+        totalProducts: {
+            label: "Total Products",
+            count: totalProducts, // Actual data
+            icon: <FaShoppingBag className="text-3xl" />,
+        },
+        totalCategory: {
+            label: "Total Category",
+            count: totalCategory, // Actual data
+            icon: <BiSolidCategory className="text-4xl" />,
+        },
+        totalOrders: {
+            label: "Total Orders",
+            count: orders.totalOrders, // Actual data
+            icon: <RiBillFill className="text-4xl" />,
+        },
+    };
     return (
         <>
             <DashboardHeader />
-            <DashboardStats orders={orders} totalProducts={totalProducts} totalCategory={totalCategory} />
+            <DashboardStats stats={stats} />
             <div>
                 <div className='text-2xl font-bold mb-4'>
                     Latest Orders
@@ -42,29 +61,21 @@ const DashboardHeader = () => {
     )
 }
 
-const DashboardStats = ({ orders, totalProducts, totalCategory }) => {
+const DashboardStats = ({ stats }) => {
     return (
         <div className="w-full flex gap-4 mb-5">
-            <div className="flex-1 text-center flex justify-center items-center bg-gray-100 dark:bg-gray-800 py-16 rounded">
-                <FaShoppingBag />
-                <span>
-                    Products: {totalProducts}
-                </span>
-            </div>
-            <div className="flex-1 text-center flex justify-center items-center bg-gray-100 dark:bg-gray-800 py-16 rounded">
-                <BiSolidCategory />
-                <span>
-                    Category: {totalCategory}
-                </span>
-            </div>
-            <div className="flex-1 text-center flex justify-center items-center bg-gray-100 dark:bg-gray-800 py-16 rounded">
-                <span>
-                    Orders: {orders.totalOrders}
-                </span>
-            </div>
+            {Object.entries(stats).map(([key, value]) => (
+                <div key={key} className="flex-1 flex justify-start gap-5 items-center bg-gray-100 dark:bg-gray-800 py-14 px-8 rounded">
+                    {value.icon}
+                    <div>
+                        <h1 className="text-gray-500 font-semibold">{value.label}</h1>
+                        <h2 className="font-bold text-xl">{value.count}</h2>
+                    </div>
+                </div>
+            ))}
         </div>
-    )
-}
+    );
+};
 
 const OrderTable = ({ orders }) => {
     return (
