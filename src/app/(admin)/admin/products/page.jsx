@@ -199,7 +199,7 @@ const ProductsTable = ({ products, handleDelete, handleEdit, searchData, searchL
                                                     </th>
                                                     <td className="px-6 py-4">{product.brand_id.brand_name}</td>
                                                     <td className="px-6 py-4">{product.category_id.category_name}</td>
-                                                    <td className="px-6 py-4">{product.price}</td>
+                                                    <td className="px-6 py-4">Rs. {product.price}</td>
                                                     <td className="px-6 py-4">{product.quantity}</td>
                                                     <td className="px-6 py-4">
                                                         <img src={`http://localhost:3001/products/${product.product_image}`} className="aspect-square w-10 object-cover rounded" alt="product"></img>
