@@ -6,7 +6,7 @@ import { fetchUserOrders } from "@/lib/features/order";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useEffect, useState } from "react";
 
-const order = () => {
+const Order = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const orders = useAppSelector((state) => state.order);
