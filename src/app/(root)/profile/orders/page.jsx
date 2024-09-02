@@ -5,7 +5,7 @@ import { fetchUserOrders } from "@/lib/features/order";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useEffect } from "react";
 
-const order = () => {
+const Order = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const orders = useAppSelector((state) => state.order);
@@ -34,4 +34,4 @@ const order = () => {
   )
 }
 
-export default withAuth(order)
+export default withAuth(Order)
