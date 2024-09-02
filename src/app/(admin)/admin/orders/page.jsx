@@ -113,14 +113,14 @@ const OrderTable = ({ orders, pgNos, searchParams,handleCancelOrder,handleUpdate
                                                             <div>
                                                                 <p className="text-gray-900 dark:text-white">{item.product_id.product_name}</p>
                                                                 <p className="text-gray-500 dark:text-gray-400">Quantity: {item.quantity}</p>
-                                                                <p className="text-gray-500 dark:text-gray-400">Price: ${item.price}</p>
+                                                                <p className="text-gray-500 dark:text-gray-400">Price: Rs.{item.price}</p>
                                                             </div>
                                                         </div>
                                                     </li>
                                                 ))}
                                             </ul>
                                         </td>
-                                        <td className="px-6 py-4">${order.total.toFixed(2)}</td>
+                                        <td className="px-6 py-4">Rs.{order.total.toFixed(2)}</td>
                                         <td className="px-6 py-4">{order.status}</td>
                                         <td className="px-6 py-4">
                                             {order.status == "Pending"?(

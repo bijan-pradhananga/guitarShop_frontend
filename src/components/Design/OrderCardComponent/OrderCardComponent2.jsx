@@ -1,7 +1,7 @@
 import API from "@/config/config"
 import { cancelOrder, fetchUserOrders, setItems } from "@/lib/features/order";
 
-const OrderCardComponent2 = ({ order, user ,dispatch}) => {
+const OrderCardComponent2 = ({ order, user ,dispatch,togglePopup}) => {
 
   const handleCancelOrder = async (id) => {
     let confirm = window.confirm("Are you sure you want to cancel this order?");
@@ -18,7 +18,7 @@ const OrderCardComponent2 = ({ order, user ,dispatch}) => {
   }
   return (
     <div className="w-full cursor-pointer flex gap-4 p-2 rounded dark:border-gray-700 dark:border-2  shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
-    onClick={()=>{dispatch(setItems(order.items))}}
+    onClick={()=>{dispatch(setItems(order.items)); togglePopup()}}
     >
       <CartImgPart order={order.items} />
       <CartInfoPart order={order} handleCancelOrder={handleCancelOrder} />
