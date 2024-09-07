@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 const Order = () => {
   const dispatch = useAppDispatch();
+  const [isOpen,setIsOpen] = useState(false);
   const user = useAppSelector((state) => state.user);
   const orders = useAppSelector((state) => state.order);
   const togglePopup = () => {
