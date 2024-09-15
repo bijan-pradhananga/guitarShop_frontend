@@ -3,10 +3,10 @@ import { cancelOrder, fetchUserOrders, setItems } from "@/lib/features/order";
 
 const OrderCardComponent2 = ({ order, user ,dispatch,togglePopup}) => {
 
-  const handleCancelOrder = async (id) => {
+  const handleCancelOrder = async () => {
     let confirm = window.confirm("Are you sure you want to cancel this order?");
     if (confirm) {
-      const result = await dispatch(cancelOrder(id));
+      const result = await dispatch(cancelOrder(order._id));
       if (cancelOrder.fulfilled.match(result)) {
         dispatch(fetchUserOrders(user.data._id))
         alert('Order Updated Successfully');
@@ -18,17 +18,17 @@ const OrderCardComponent2 = ({ order, user ,dispatch,togglePopup}) => {
   }
   return (
     <div className="w-full cursor-pointer flex gap-4 p-2 rounded dark:border-gray-700 dark:border-2  shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
-    onClick={()=>{dispatch(setItems(order.items)); togglePopup()}}
+    onClick={()=>{dispatch(setItems(order.items))}}
     >
-      <CartImgPart order={order.items} />
+      <CartImgPart order={order.items} togglePopup={togglePopup} />
       <CartInfoPart order={order} handleCancelOrder={handleCancelOrder} />
     </div>
   )
 }
 
-const CartImgPart = ({ order }) => {
+const CartImgPart = ({ order ,togglePopup}) => {
   return (
-    <div className="w-1/3 aspect-square p-1 ">
+    <div className="w-1/3 aspect-square p-1 " onClick={togglePopup}>
       <img src={`${API.defaults.baseURL}/products/${order[0].product_id.product_image}`}
         alt={order[0].product_id.product_name}
         className="w-full h-full object-cover rounded" />
@@ -51,7 +51,7 @@ const CartInfoPart = ({ order, handleCancelOrder }) => {
         <h2 className="font-semibold text-gray-500">
           {order.status == 'Pending' ?
             <span className="text-red-500 cursor-pointer"
-             onClick={() => { handleCancelOrder(order._id) }} >
+             onClick={handleCancelOrder} >
               Cancel
             </span>
             : 
