@@ -82,7 +82,7 @@ const ProductDetails = ({ params }) => {
             ) : (
                 <ProductNotFound />
             )}
-            {popup && <ProductPaymentPopup setPopup={setPopup} handleOrder={handleOrder} paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />}
+            {popup && <ProductPaymentPopup quantity={quantity} product={data} setPopup={setPopup} handleOrder={handleOrder} paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />}
         </>
     );
 };
