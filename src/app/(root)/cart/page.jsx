@@ -50,7 +50,7 @@ function CartPage() {
         {/* Checkout Part  */}
         {items.length > 0 && (
           <div className="w-full my-5 md:my-5 md:w-1/2">
-            <CheckOutComponent total={total} userId={user._id} fetchCartItems={fetchCartItems} dispatch={dispatch}/>
+            <CheckOutComponent items={items} total={total} userId={user._id} fetchCartItems={fetchCartItems} dispatch={dispatch}/>
           </div>
         )}
 
