@@ -18,6 +18,21 @@ export const initializePayment = createAsyncThunk(
   }
 );
 
+// Async thunk to initialize payment for checkout
+export const initializeCheckOutPayment = createAsyncThunk(
+  'payment/initialize-esewa-2',
+  async ({user_id}, { rejectWithValue }) => {
+    try {
+      const response = await API.post('payment/initialize-esewa2', {
+        user_id
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const paymentSlice = createSlice({
   name: 'payment',
   initialState: {
@@ -43,6 +58,18 @@ const paymentSlice = createSlice({
         state.loading = false;
       })
       .addCase(initializePayment.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(initializeCheckOutPayment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(initializeCheckOutPayment.fulfilled, (state, action) => {
+        state.paymentData = action.payload;
+        state.loading = false;
+      })
+      .addCase(initializeCheckOutPayment.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       });
