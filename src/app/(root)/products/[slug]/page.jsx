@@ -26,72 +26,76 @@ const ProductDetails = ({ params }) => {
     const { singleProductData: data, isLoading } = product;
     const [quantity, setQuantity] = useState(1);
 
+    const handleCashPayment = async (user_id) => {
+        const res2 = await dispatch(buyNow({
+            product_id: data._id,
+            user_id,
+            quantity
+        }));
+
+        if (res2.payload.success) {
+            alert('Order Placed successfully');
+            router.push('/profile/orders');
+        } else {
+            alert('Unexpected error occurred');
+        }
+    }
+
+    const handleEsewaPayment = async  (user_id) =>{
+        const res3 = await dispatch(initializePayment({
+            product_id: data._id, 
+            user_id, 
+            quantity 
+        }));
+
+        if (res3.payload.success) {
+            // Step 4: Redirect user to eSewa with payment details
+            const { payment, order } = res3.payload;
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'https://rc-epay.esewa.com.np/api/epay/main/v2/form';  // Replace with the correct eSewa URL
+
+            const inputFields = {
+                "amount": order.total,
+                "failure_url": "https://google.com",
+                "product_delivery_charge": "0",
+                "product_service_charge": "0",
+                "product_code": "EPAYTEST",
+                "signature": payment.signature,
+                "signed_field_names": payment.signed_field_names,
+                "success_url": "http://localhost:3001/payment/complete-payment",
+                "tax_amount": 0,
+                "total_amount": order.total,
+                "transaction_uuid": order._id,
+                "secret_key":'8gBm/:&EnhH.1/q'
+                }
+            // Append input fields to the form
+            for (const [key, value] of Object.entries(inputFields)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            }
+            document.body.appendChild(form);
+            form.submit();
+        } else {
+            alert('Unexpected error occurred');
+        }
+    }
+
     const handleOrder = async () => {
         // Step 1: Check if the user is authenticated
         const res = await dispatch(checkAuth());
-        
         if (res.payload.success) {
             const user_id = res.payload.user._id;
-    
             if (paymentMethod === 'cod') {
                 // Step 2: Handle Cash on Delivery order
-                const res2 = await dispatch(buyNow({ 
-                    product_id: data._id, 
-                    user_id: user_id, 
-                    quantity 
-                }));
-    
-                if (res2.payload.success) {
-                    alert('Order Placed successfully');
-                    router.push('/profile/orders');
-                } else {
-                    alert('Unexpected error occurred');
-                }
+                handleCashPayment(user_id);
             } else {
                 // Step 3: Handle eSewa payment initialization
-                const res3 = await dispatch(initializePayment({
-                    product_id: data._id, 
-                    user_id: user_id, 
-                    quantity 
-                }));
-    
-                if (res3.payload.success) {
-                    // Step 4: Redirect user to eSewa with payment details
-                    const { payment, order } = res3.payload;
-    
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = 'https://rc-epay.esewa.com.np/api/epay/main/v2/form';  // Replace with the correct eSewa URL
-    
-                    const inputFields = {
-                        "amount": order.total,
-                        "failure_url": "https://google.com",
-                        "product_delivery_charge": "0",
-                        "product_service_charge": "0",
-                        "product_code": "EPAYTEST",
-                        "signature": payment.signature,
-                        "signed_field_names": payment.signed_field_names,
-                        "success_url": "http://localhost:3001/payment/complete-payment",
-                        "tax_amount": 0,
-                        "total_amount": order.total,
-                        "transaction_uuid": order._id,
-                        "secret_key":'8gBm/:&EnhH.1/q'
-                        }
-    
-                    // Append input fields to the form
-                    for (const [key, value] of Object.entries(inputFields)) {
-                        const input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = key;
-                        input.value = value;
-                        form.appendChild(input);
-                    }
-    
-                    document.body.appendChild(form);
-                    form.submit();
-                } else {
-                    alert('Unexpected error occurred');
-                }
+                handleEsewaPayment(user_id);
             }
         } else {
             alert('Please Log In First');
