@@ -7,6 +7,7 @@ import userReducer from './features/user'
 import cartReducer from './features/cart'
 import wishlistReducer from './features/wishlist'
 import orderReducer from './features/order'
+import paymentReducer from './features/payment'
 
 export const makeStore = () => {
   return configureStore({
@@ -18,7 +19,8 @@ export const makeStore = () => {
         user: userReducer,
         cart: cartReducer,
         wishlist: wishlistReducer,
-        order:orderReducer
+        order:orderReducer,
+        payment:paymentReducer
     }
   })
 }
