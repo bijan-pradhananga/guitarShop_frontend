@@ -27,7 +27,7 @@ const CartInfoPart = ({item,handleRemoveFromCart}) => {
       <div>
         <div className="w-full flex justify-between my-1 ">
           <h1 className="text-md  lg:text-xl">{item.product_id.product_name}</h1>
-          <h2>{item.product_id.price}</h2>
+          <h2>Rs. {item.product_id.price}</h2>
         </div>
         <h3> {capitalizeFirstLetter(item.product_id.category_id.category_name)}</h3>
       </div>
