@@ -91,9 +91,9 @@ const OrderTable = ({ orders, pgNos, searchParams,handleCancelOrder,handleUpdate
                                 <tr>
                                     <th scope="col" className="px-6 py-3">Order ID</th>
                                     <th scope="col" className="px-6 py-3">User ID</th>
-                                    {/* <th scope="col" className="px-6 py-3">User Name</th> */}
                                     <th scope="col" className="px-6 py-3">Product Details</th>
                                     <th scope="col" className="px-6 py-3">Total Price</th>
+                                    <th scope="col" className="px-6 py-3">Payment</th>
                                     <th scope="col" className="px-6 py-3">Status</th>
                                     <th scope="col" className="px-6 py-3">Action</th>
                                 </tr>
@@ -121,6 +121,7 @@ const OrderTable = ({ orders, pgNos, searchParams,handleCancelOrder,handleUpdate
                                             </ul>
                                         </td>
                                         <td className="px-6 py-4">Rs.{order.total.toFixed(2)}</td>
+                                        <td className="px-6 py-4">{order.payment}</td>
                                         <td className="px-6 py-4">{order.status}</td>
                                         <td className="px-6 py-4">
                                             {order.status == "Pending"?(
