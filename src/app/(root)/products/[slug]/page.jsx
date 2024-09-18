@@ -58,7 +58,7 @@ const ProductDetails = ({ params }) => {
 
             const inputFields = {
                 "amount": order.total,
-                "failure_url": "https://google.com",
+                "failure_url": `http://localhost:3000/payment/failure?orderid=${order._id}`,
                 "product_delivery_charge": "0",
                 "product_service_charge": "0",
                 "product_code": "EPAYTEST",
