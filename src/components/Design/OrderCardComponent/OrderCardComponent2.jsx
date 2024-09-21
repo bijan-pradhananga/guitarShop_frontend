@@ -40,8 +40,10 @@ const CartInfoPart = ({ order, handleCancelOrder }) => {
   return (
     <div className="w-4/6 p-1 flex flex-col justify-between text-sm lg:text-lg lg:p-3">
       <div>
-        <div className="w-full xl:flex justify-between">
-          <h1 className="text-md lg:text-xl">{order._id}</h1>
+        <div className="w-full">
+          <h1 className="text-md lg:text-xl">
+            <span className=" hidden md:inline">ID</span> #{order._id}
+          </h1>
           <h2>Rs. {order.total.toFixed(2)}</h2>
         </div>
       </div>
