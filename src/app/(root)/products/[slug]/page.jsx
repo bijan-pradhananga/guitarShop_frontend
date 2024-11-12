@@ -6,6 +6,7 @@ import BuyNowBtn from "@/components/hero/BuyNowBtn";
 import OutOfStockComponent from "@/components/hero/OutOfStockComponent";
 import RatingStars from "@/components/hero/RatingStars";
 import ProductPageLoader from "@/components/Loader/PageLoader.jsx/ProductPageLoader";
+import API from "@/config/config";
 import { fetchSingleProduct } from "@/lib/features/product";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { capitalizeFirstLetter } from "@/utils/utils";
@@ -43,7 +44,7 @@ const ProductDetails = ({ params }) => {
             {data && data.category_id ? (
                 <div className="w-full mt-4 px-5 lg:flex lg:gap-6 md:mb-10 md:px-0 md:w-3/5 lg:w-3/4 md:mx-auto">
                     <div className="w-full lg:w-2/4 mb-4 ">
-                        <img src={`http://localhost:3001/products/${data.product_image}`}
+                        <img src={`${API.defaults.baseURL}/products/${data.product_image}`}
                             className="w-full p-2 aspect-square object-cover shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]" />
                     </div>
                     <div className="flex flex-col p-2">
