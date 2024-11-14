@@ -9,7 +9,6 @@ import ProductPageLoader from "@/components/Loader/PageLoader.jsx/ProductPageLoa
 import API from "@/config/config";
 import { fetchSingleProduct } from "@/lib/features/product";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import API from "@/config/config";
 import { capitalizeFirstLetter } from "@/utils/utils";
 import { useEffect, useState } from "react";
 
