@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://guitarshopbackend-production.up.railway.app",
+  baseURL: "https://guitarshop-backend-jgye.onrender.com",
   withCredentials: true
 }
 );
